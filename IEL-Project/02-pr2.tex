@@ -1,0 +1,151 @@
+\section{Příklad 2}
+% Jako parametr zadejte skupinu (A-H)
+\druhyZadani{H}
+
+\begin{large}
+\textbf{ŘEŠENÍ} (Metoda Théveninovy věty):\\
+\end{large}
+
+\textbf{·}
+Prvním krokem bude sečtení dvou sériově zapojených rezistorů $R_4$ a $R_5$.
+
+\begin{center}
+$R_{45} = R_{4} + R_{5} = 220 + 570 = {790} \hspace{0,08cm} \SI{}{\ohm}$
+\end{center}
+
+\textbf{·}
+Překreslíme si obvod bez $R_3$ a nahradíme napětí zdroje „zkratem“.
+
+\begin{center}
+\begin{circuitikz}
+    \draw 
+(0,0) to [short, -] (0,3)
+    to [short, -*] (1,3)
+    to [short, -] (1,4)
+    to [R=$R_1$] (3,4)
+(3,4) to [short, -*] (3,4)
+node[label={[font=\footnotesize]above:A}] {}
+    to [R=$R_{45}$] (5,4)
+    to [short, -*] (5,2)
+(1,3) to [short, -] (1,2)
+    to [R=$R_2$] (3,2)
+(3,2) to [short, -*] (3,2)
+node[label={[font=\footnotesize]above:B}] {}
+    to [R=$R_6$] (5,2)
+    to [short, -] (5,0)
+    to [short, -] (0,0);
+\draw [dotted](3,0) circle (0.5);
+\end{circuitikz}
+\end{center}
+
+\textbf{·}
+V obvodu si můžeme povšimnout, že $R_{1}$ \& $R_{45}$ a $R_{2}$ \& $R_{6}$ jsou v paralelním zapojení, můžeme je tedy spojit v $R_{145}$ \& $R_{26}$.
+
+\begin{center}
+$R_{145} = \frac{R_1 \cdot R_{45}}{R_1 + R_{45}} = \frac{50 \cdot 790}{50 + 790} = \frac{1975}{42} \doteq{47,0238} \hspace{0,08cm} \SI{}{\ohm}$
+\end{center}
+
+\begin{center}
+$R_{26} = \frac{R_2 \cdot R_{6}}{R_2 + R_{6}} = \frac{310 \cdot 200}{310 + 200} = \frac{6200}{51} \doteq{121,5686} \hspace{0,08cm} \SI{}{\ohm}$
+\end{center}
+
+\begin{center}
+\begin{circuitikz}
+    \draw 
+(0,1) to [short, -] (0,4) 
+    to [R=$R_{26}$] (2.5,4)
+    to [short, -*] (2.5,4)
+    node[label={[font=\footnotesize]above:A}] {}
+    to [R=$R_{145}$] (5,4)
+    to [short, -] (5,4)
+    to [short, -] (5,1)
+    to [short, -] (0,1)
+(2.5,1) to [short, -*] (2.5,1)
+    node[label={[font=\footnotesize]below:B}] {};
+\draw [dotted](0,2.5) circle (0.5);
+\end{circuitikz}
+\end{center}
+
+\textbf{·}
+Mezi body A \& B spočítáme odpor $R_{AB}$ a navíc víme, že $R_{AB}$ \equiv \hspace{0,08cm} $R_i$.
+
+\begin{center}
+$R_i = R_{145} + R_{26} = 47,0238 + 121,5686 = {168,5924} \hspace{0,08cm} \SI{}{\ohm}$
+\end{center}
+
+\textbf{·}
+Opět si překreslíme obvod bez $R_3$ a určíme napětí „naprázdno“ mezi body A, B. Proud $I_X$ se rozděluje do dvou větví, takže abych ho mohli vypočítat, tak budeme potřebovat dvě rovnice sestavené podle II. Kirchhoffova zákona.
+
+\begin{center}
+\begin{circuitikz}
+    \draw 
+(0,0) to [short, -] (0,3)
+    to [short, i=$I_{X}$] (1,3)
+    to [short, -*] (1,3)
+    to [short, -] (1,4)
+    to [R=$R_1$] (3,4)
+(3,4) to [short, -*] (3,4)
+node[label={[font=\footnotesize]above:A}] {}
+    to [R=$R_{45}$] (5,4)
+    to [short, -*] (5,2)
+(1,3) to [short, -] (1,2)
+    to [R=$R_2$] (3,2)
+(3,2) to [short, -*] (3,2)
+node[label={[font=\footnotesize]below:B}] {}
+    to [R=$R_6$] (5,2)
+    to [short, -] (5,0)
+    to [V,v<=$U$] (0,0)
+(3.1,3) node[label={[font=\footnotesize]left:$U_{i}$}] {};;
+\draw [->](3,3.8)--(3,2.2);
+\draw[<-]
+    (1.9,3.2) node{${1.}$} 
+    ++ (0.5,0)
+    arc(0:300:0.5);
+\end{circuitikz}
+\end{center}
+\begin{eqnarray}
+R_1\cdot{I_X} + R_{45}\cdot{I_X} - U &= & 0\\
+R_2\cdot{I_Y} + R_6\cdot{I_Y} - U &= & 0
+\end{eqnarray}
+
+\textbf{·}
+Do rovnic dosadím hodnoty a následně je upravím.
+\begin{eqnarray}
+50\cdot{I_X} + 790\cdot{I_X} - 100 &= & 0\\
+310\cdot{I_Y} + 200\cdot{I_Y} - 100 &= & 0
+\end{eqnarray}
+\begin{eqnarray}
+840\cdot{I_X} &= & 100 \hspace{1cm} => \hspace{1cm} I_X = \frac{100}{840} = \frac{5}{42} \doteq{0,1190} \hspace{0,08cm} \SI{}{\ampere}\\
+510\cdot{I_Y} & = & 100 \hspace{1cm} => \hspace{1cm} I_Y = \frac{100}{510} = \frac{10}{51} \doteq{0,1961} \hspace{0,08cm} \SI{}{\ampere}
+\end{eqnarray}
+
+\textbf{·}
+Poté si vyjádříme rovnici ze smyčky č.1:
+\begin{eqnarray}
+R_1\cdot{I_X} + U_i - R_2\cdot{I_Y} &= & 0 \\
+50\cdot{0,1190} - 310\cdot{0,1961} & = & -U_i \\
+-54,841 & = & -U_i \hspace{1cm} => \hspace{1cm} U_i \doteq{54,841} \hspace{0,08cm} \SI{}{\volt}
+\end{eqnarray}
+
+\newpage
+\textbf{·}
+Posledním krokem je dopočítat $I_{R3}$ a $U_{R3}$:
+
+\begin{center}
+\begin{circuitikz}
+    \draw 
+(0,1) to [V,v<=$U_i$] (0,4)
+    to [R=$R_{i}$] (4,4)
+    to [R=$R_{3}$, v=$U_{R3}$] (4,1)
+    to [short, -] (0,1)
+(4,4) to [short, i=$I_{R3}$] (4,3);
+\end{circuitikz}
+\end{center}
+
+\begin{center}
+$I_{R3} = \frac{U_{i}}{R_i + R_3} = \frac{54,841}{168,5924 + 610} \doteq{\textbf{0,0704}} \hspace{0,08cm} \SI{}{\ampere}$
+\end{center} 
+
+\begin{center}
+$U_{R3} = I_{R3}\cdot{R_3} = 0,0704\cdot{610} = {\textbf{42,944}} \hspace{0,08cm} \SI{}{\volt}$
+\end{center} 
